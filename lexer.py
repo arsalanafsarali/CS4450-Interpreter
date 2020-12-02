@@ -1,3 +1,5 @@
+import enum
+
 class Lexer:
     def _init_(self, input):
         pass
