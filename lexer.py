@@ -24,6 +24,51 @@ class Lexer:
             token = Token(self.curChar, TokenType.NEWLINE)
         elif self.curChar == '\0':
             token = Token(self.curChar, TokenType.EOF)
+        elif self.curChar == '=':
+            # logic in place to differentiate between = and ==
+            if self.lookNext() == '=':
+                lastCharacter = self.curChar()
+                self.nextChar()
+                token = Token(lastCharacter + self.curChar, TokenType.EQEQ)
+            else:
+                token = Token(self.curChar, TokenType.EQ)
+
+        elif self.curChar == '>':
+            # logic in place to differentiate between > and >=
+            if self.lookNext() == '=':
+                lastCharacter = self.curChar
+                self.nextChar()
+                token = Token(lastCharacter + self.curChar, TokenType.GTEQ)
+            else:
+                token = Token(self.curChar, TokenType.GT)
+
+        elif self.curChar == '<':
+            # logic in place to differentiate between < and <=
+            if self.lookNext() == '=':
+                lastCharacter = self.curChar
+                self.nextChar()
+                token = Token(lastCharacter + self.curChar, TokenType.LTEQ)
+            else:
+                token = Token(self.curChar, TokenType.LT)
+
+        elif self.curChar == '<':
+            # logic in place to differentiate between < and <=
+            if self.lookNext() == '=':
+                lastCharacter = self.curChar
+                self.nextChar()
+                token = Token(lastCharacter + self.curChar, TokenType.LTEQ)
+            else:
+                token = Token(self.curChar, TokenType.LT)
+
+        elif self.curChar == '!':
+            # logic in place to differentiate between ! and !=
+            if self.lookNext() == '=':
+                lastCharacter = self.curChar
+                self.nextChar()
+                token = Token(lastCharacter + self.curChar, TokenType.NOTEQ)
+            else:
+                self.abort("Expected !=, got !" + self.lookNext())
+
         else:
             self.abort("Unknown token: " + self.curChar)
 
