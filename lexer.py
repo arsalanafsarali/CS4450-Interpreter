@@ -1,4 +1,5 @@
 import enum
+import sys
 
 class Lexer:
     def __init__(self, input):
@@ -8,22 +9,23 @@ class Lexer:
         self.nextChar()
 
     def getToken(self):
+        self.skipWhiteSpace()
         token = None
 
         if self.curChar == '+':
             token = Token(self.curChar, TokenType.PLUS)
-        if self.curChar == '-':
+        elif self.curChar == '-':
             token = Token(self.curChar, TokenType.MINUS)
-        if self.curChar == '*':
+        elif self.curChar == '*':
             token = Token(self.curChar, TokenType.ASTERISK)
-        if self.curChar == '/':
+        elif self.curChar == '/':
             token = Token(self.curChar, TokenType.SLASH)
-        if self.curChar == '\n':
+        elif self.curChar == '\n':
             token = Token(self.curChar, TokenType.NEWLINE)
-        if self.curChar == '\0':
+        elif self.curChar == '\0':
             token = Token(self.curChar, TokenType.EOF)
         else:
-            pass
+            self.abort("Unknown token: " + self.curChar)
 
         self.nextChar()
         return token
@@ -42,15 +44,15 @@ class Lexer:
         else:
             return self.source[self.curPos + 1]
 
-    def abort(self):
-        pass
-
-    def ignoreWhiteSpace(self):
-        pass
+    def abort(self, message):
+        sys.exit("Lexing error. " + message)
 
     def ignoreComments(self):
         pass
-
+    
+    def skipWhiteSpace(self):
+        while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
+            self.nextChar()
 # Token contains the original text and the type of token.
 class Token:   
     def __init__(self, tokenText, tokenKind):
