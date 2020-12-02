@@ -69,6 +69,16 @@ class Lexer:
             else:
                 self.abort("Expected !=, got !" + self.lookNext())
 
+        elif self.curChar.isalpha():
+            startPosition = self.curPos
+            while self.lookNext().isalnum():
+                self.nextChar()
+            tokenText = self.source[startPosition : self.curPos + 1]
+            keyword = Token.checkIfKeyword(tokenText)
+            if keyword == None:
+                token = Token(tokenText, TokenType.IDENT)
+            else:
+                token = Token(tokenText, TokenType.IDENT)
         else:
             self.abort("Unknown token: " + self.curChar)
 
@@ -103,37 +113,43 @@ class Token:
     def __init__(self, tokenText, tokenKind):
         self.text = tokenText   # The token's actual text. Used for identifiers, strings, and numbers.
         self.kind = tokenKind   # The TokenType that this token is classified as.
+    @staticmethod
+    def checkIfKeyword(tokenText):
+        for type in TokenType:
+            if type.name == tokenText and type.value >= 100 and type.value < 200:
+                return type
+        return None
 
 # TokenType is our enum for all the types of tokens.
 class TokenType(enum.Enum):
-	EOF = -1
-	NEWLINE = 0
-	NUMBER = 1
-	IDENT = 2
-	STRING = 3
+    EOF = -1
+    NEWLINE = 0
+    NUMBER = 1
+    IDENT = 2
+    STRING = 3
 	# Keywords.
-	PRINT = 101
-	IF = 102
-    	ELSE = 103
-    	FOR = 104
-	WHILE = 105
+    PRINT = 101
+    IF = 102
+    ELSE = 103
+    FOR = 104
+    WHILE = 105
 	# Operators.
-	EQ = 201  
-	PLUS = 202
-	MINUS = 203
-	ASTERISK = 204
-	SLASH = 205
-	EQEQ = 206
-	NOTEQ = 207
-	LT = 208
-	LTEQ = 209
-	GT = 210
-	GTEQ = 211
-    	# Assignment
-    	EQL = 301
-    	PEQL = 302
-    	MEQL = 303
-    	AEQL = 304
-    	DEQL = 305
-    	CEQL = 306
-    	MODEQL = 307
+    EQ = 201  
+    PLUS = 202
+    MINUS = 203
+    ASTERISK = 204
+    SLASH = 205
+    EQEQ = 206
+    NOTEQ = 207
+    LT = 208
+    LTEQ = 209
+    GT = 210
+    GTEQ = 211
+    # Assignment
+    EQL = 301
+    PEQL = 302
+    MEQL = 303
+    AEQL = 304
+    DEQL = 305
+    CEQL = 306
+    MODEQL = 307
