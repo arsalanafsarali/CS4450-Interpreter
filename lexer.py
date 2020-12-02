@@ -1,17 +1,28 @@
 import enum
 
 class Lexer:
-    def _init_(self, input):
-        pass
+    def __init__(self, input):
+        self.source = input + '\n'
+        self.curChar = ''
+        self.curPos = -1
+        self.nextChar()
 
     def getToken(self):
         pass
 
     def nextChar(self):
-        pass
+        self.curPos += 1
+
+        if self.curPos >= len(self.source):
+            self.curChar = '\0'
+        else:
+            self.curChar = self.source[self.curPos]
 
     def lookNext(self):
-        pass
+        if self.curPos + 1 >= len(self.source):
+            return '\0'
+        else:
+            return self.source[self.curPos + 1]
 
     def abort(self):
         pass
