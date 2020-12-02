@@ -8,22 +8,25 @@ class Lexer:
         self.nextChar()
 
     def getToken(self):
+        token = None
+
         if self.curChar == '+':
-            pass
+            token = Token(self.curChar, TokenType.PLUS)
         if self.curChar == '-':
-            pass
+            token = Token(self.curChar, TokenType.MINUS)
         if self.curChar == '*':
-            pass
+            token = Token(self.curChar, TokenType.ASTERISK)
         if self.curChar == '/':
-            pass
+            token = Token(self.curChar, TokenType.SLASH)
         if self.curChar == '\n':
-            pass
+            token = Token(self.curChar, TokenType.NEWLINE)
         if self.curChar == '\0':
-            pass
+            token = Token(self.curChar, TokenType.EOF)
         else:
             pass
 
         self.nextChar()
+        return token
 
     def nextChar(self):
         self.curPos += 1

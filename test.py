@@ -1,11 +1,12 @@
 from lexer import *
 
 def main():
-    test = "Interpreter + * x ProJect"
+    test = "+- */"
     lexer = Lexer(test)
+    token = lexer.getToken()
 
-    while lexer.lookNext() != '\0':
-        print(lexer.curChar)
-        lexer.nextChar()
+    while token.kind != TokenType.EOF:
+        print(token.kind)
+        token = lexer.getToken()
 
 main()
