@@ -1,4 +1,5 @@
 import enum
+import sys
 
 class Lexer:
     def __init__(self, input):
@@ -23,7 +24,7 @@ class Lexer:
         if self.curChar == '\0':
             token = Token(self.curChar, TokenType.EOF)
         else:
-            pass
+            self.abort("Unknown token: " + self.curChar)
 
         self.nextChar()
         return token
@@ -42,8 +43,8 @@ class Lexer:
         else:
             return self.source[self.curPos + 1]
 
-    def abort(self):
-        pass
+    def abort(self, message):
+        sys.exit("Lexing error. " + message)
 
     def ignoreWhiteSpace(self):
         pass
