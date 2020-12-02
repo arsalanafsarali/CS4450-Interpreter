@@ -10,6 +10,7 @@ class Lexer:
 
     def getToken(self):
         self.skipWhiteSpace()
+        self.ignoreComments()
         token = None
 
         if self.curChar == '+':
@@ -51,15 +52,6 @@ class Lexer:
             else:
                 token = Token(self.curChar, TokenType.LT)
 
-        elif self.curChar == '<':
-            # logic in place to differentiate between < and <=
-            if self.lookNext() == '=':
-                lastCharacter = self.curChar
-                self.nextChar()
-                token = Token(lastCharacter + self.curChar, TokenType.LTEQ)
-            else:
-                token = Token(self.curChar, TokenType.LT)
-
         elif self.curChar == '!':
             # logic in place to differentiate between ! and !=
             if self.lookNext() == '=':
@@ -68,6 +60,36 @@ class Lexer:
                 token = Token(lastCharacter + self.curChar, TokenType.NOTEQ)
             else:
                 self.abort("Expected !=, got !" + self.lookNext())
+        
+        elif self.curChar == '\"':
+        # Get characters between quotations
+            self.nextChar()
+            startPos = self.curPos
+        
+            while self.curChar != '\"':
+                if self.curChar == '\r' or self.curChar == '\n' or self.curChar == '\t' or self.curChar == '\\' or self.curChar == '%':
+                    self.abort("Illegal character in string.")
+                self.nextChar()
+
+            tokText = self.source[startPos : self.curPos] # Get the substring
+            token = Token(tokText, TokenType.STRING)
+
+        elif self.curChar.isdigit():
+            startPos = self.curPos
+
+            while self.lookNext().isdigit():
+                self.nextChar()
+
+            if self.lookNext() == '.':
+                self.nextChar()
+
+                if not self.lookNext().isdigit():
+                    self.abort("Illegal character in number.")
+                while self.lookNext().isdigit():
+                    self.nextChar()
+
+            tokText = self.source[startPos : self.curPos + 1]
+            token = Token(tokText, TokenType.NUMBER)
 
         elif self.curChar.isalpha():
             startPosition = self.curPos
@@ -103,7 +125,9 @@ class Lexer:
         sys.exit("Lexing error. " + message)
 
     def ignoreComments(self):
-        pass
+        if self.curChar == '#':
+            while self.curChar != '\n':
+                self.nextChar()
     
     def skipWhiteSpace(self):
         while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
@@ -127,13 +151,13 @@ class TokenType(enum.Enum):
     NUMBER = 1
     IDENT = 2
     STRING = 3
-	# Keywords.
+    # Keywords.
     PRINT = 101
     IF = 102
     ELSE = 103
     FOR = 104
     WHILE = 105
-	# Operators.
+    # Operators.
     EQ = 201  
     PLUS = 202
     MINUS = 203
