@@ -1,7 +1,7 @@
 from lexer import *
 
 def main():
-    test = "+- */"
+    test = "+ - #This is a comment! \n */"
     lexer = Lexer(test)
     token = lexer.getToken()
 

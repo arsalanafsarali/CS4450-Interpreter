@@ -10,6 +10,7 @@ class Lexer:
 
     def getToken(self):
         self.skipWhiteSpace()
+        self.ignoreComments()
         token = None
 
         if self.curChar == '+':
@@ -41,15 +42,6 @@ class Lexer:
                 token = Token(lastCharacter + self.curChar, TokenType.GTEQ)
             else:
                 token = Token(self.curChar, TokenType.GT)
-
-        elif self.curChar == '<':
-            # logic in place to differentiate between < and <=
-            if self.lookNext() == '=':
-                lastCharacter = self.curChar
-                self.nextChar()
-                token = Token(lastCharacter + self.curChar, TokenType.LTEQ)
-            else:
-                token = Token(self.curChar, TokenType.LT)
 
         elif self.curChar == '<':
             # logic in place to differentiate between < and <=
@@ -93,7 +85,9 @@ class Lexer:
         sys.exit("Lexing error. " + message)
 
     def ignoreComments(self):
-        pass
+        if self.curChar == '#':
+            while self.curChar != '\n':
+                self.nextChar()
     
     def skipWhiteSpace(self):
         while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
