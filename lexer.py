@@ -74,6 +74,23 @@ class Lexer:
             tokText = self.source[startPos : self.curPos] # Get the substring
             token = Token(tokText, TokenType.STRING)
 
+        elif self.curChar.isdigit():
+            startPos = self.curPos
+
+            while self.lookNext().isdigit():
+                self.nextChar()
+
+            if self.lookNext() == '.':
+                self.nextChar()
+
+                if not self.lookNext().isdigit():
+                    self.abort("Illegal character in number.")
+                while self.lookNext().isdigit():
+                    self.nextChar()
+
+            tokText = self.source[startPos : self.curPos + 1]
+            token = Token(tokText, TokenType.NUMBER)
+
         else:
             self.abort("Unknown token: " + self.curChar)
 
@@ -113,34 +130,34 @@ class Token:
 
 # TokenType is our enum for all the types of tokens.
 class TokenType(enum.Enum):
-	EOF = -1
-	NEWLINE = 0
-	NUMBER = 1
-	IDENT = 2
-	STRING = 3
-	# Keywords.
-	PRINT = 101
-	IF = 102
-    	ELSE = 103
-    	FOR = 104
-	WHILE = 105
-	# Operators.
-	EQ = 201  
-	PLUS = 202
-	MINUS = 203
-	ASTERISK = 204
-	SLASH = 205
-	EQEQ = 206
-	NOTEQ = 207
-	LT = 208
-	LTEQ = 209
-	GT = 210
-	GTEQ = 211
-    	# Assignment
-    	EQL = 301
-    	PEQL = 302
-    	MEQL = 303
-    	AEQL = 304
-    	DEQL = 305
-    	CEQL = 306
-    	MODEQL = 307
+    EOF = -1
+    NEWLINE = 0
+    NUMBER = 1
+    IDENT = 2
+    STRING = 3
+    # Keywords.
+    PRINT = 101
+    IF = 102
+    ELSE = 103
+    FOR = 104
+    WHILE = 105
+    # Operators.
+    EQ = 201  
+    PLUS = 202
+    MINUS = 203
+    ASTERISK = 204
+    SLASH = 205
+    EQEQ = 206
+    NOTEQ = 207
+    LT = 208
+    LTEQ = 209
+    GT = 210
+    GTEQ = 211
+    # Assignment
+    EQL = 301
+    PEQL = 302
+    MEQL = 303
+    AEQL = 304
+    DEQL = 305
+    CEQL = 306
+    MODEQL = 307
