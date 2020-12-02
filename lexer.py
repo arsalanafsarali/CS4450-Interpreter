@@ -114,8 +114,8 @@ class TokenType(enum.Enum):
 	# Keywords.
 	PRINT = 101
 	IF = 102
-    ELSE = 103
-    FOR = 104
+    	ELSE = 103
+    	FOR = 104
 	WHILE = 105
 	# Operators.
 	EQ = 201  
@@ -129,11 +129,11 @@ class TokenType(enum.Enum):
 	LTEQ = 209
 	GT = 210
 	GTEQ = 211
-    # Assignment
-    EQL = 301
-    PEQL = 302
-    MEQL = 303
-    AEQL = 304
-    DEQL = 305
-    CEQL = 306
-    MODEQL = 307
+    	# Assignment
+    	EQL = 301
+    	PEQL = 302
+    	MEQL = 303
+    	AEQL = 304
+    	DEQL = 305
+    	CEQL = 306
+    	MODEQL = 307
