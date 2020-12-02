@@ -60,6 +60,19 @@ class Lexer:
                 token = Token(lastCharacter + self.curChar, TokenType.NOTEQ)
             else:
                 self.abort("Expected !=, got !" + self.lookNext())
+        
+        elif self.curChar == '\"':
+        # Get characters between quotations
+            self.nextChar()
+            startPos = self.curPos
+        
+            while self.curChar != '\"':
+                if self.curChar == '\r' or self.curChar == '\n' or self.curChar == '\t' or self.curChar == '\\' or self.curChar == '%':
+                    self.abort("Illegal character in string.")
+                self.nextChar()
+
+            tokText = self.source[startPos : self.curPos] # Get the substring
+            token = Token(tokText, TokenType.STRING)
 
         else:
             self.abort("Unknown token: " + self.curChar)
