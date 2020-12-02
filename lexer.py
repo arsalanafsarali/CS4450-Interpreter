@@ -47,9 +47,6 @@ class Lexer:
     def abort(self, message):
         sys.exit("Lexing error. " + message)
 
-    def ignoreWhiteSpace(self):
-        pass
-
     def ignoreComments(self):
         pass
     
