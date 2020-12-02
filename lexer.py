@@ -3,7 +3,22 @@ class Lexer:
         pass
 
     def getToken(self):
-        pass
+        if self.curChar == '+':
+            pass
+        if self.curChar == '-':
+            pass
+        if self.curChar == '*':
+            pass
+        if self.curChar == '/':
+            pass
+        if self.curChar == '\n':
+            pass
+        if self.curChar == '\0':
+            pass
+        else:
+            pass
+
+        self.nextChar()
 
     def nextChar(self):
         pass
