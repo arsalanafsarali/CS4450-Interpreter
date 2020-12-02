@@ -13,15 +13,15 @@ class Lexer:
 
         if self.curChar == '+':
             token = Token(self.curChar, TokenType.PLUS)
-        if self.curChar == '-':
+        elif self.curChar == '-':
             token = Token(self.curChar, TokenType.MINUS)
-        if self.curChar == '*':
+        elif self.curChar == '*':
             token = Token(self.curChar, TokenType.ASTERISK)
-        if self.curChar == '/':
+        elif self.curChar == '/':
             token = Token(self.curChar, TokenType.SLASH)
-        if self.curChar == '\n':
+        elif self.curChar == '\n':
             token = Token(self.curChar, TokenType.NEWLINE)
-        if self.curChar == '\0':
+        elif self.curChar == '\0':
             token = Token(self.curChar, TokenType.EOF)
         else:
             self.abort("Unknown token: " + self.curChar)
