@@ -9,6 +9,7 @@ class Lexer:
         self.nextChar()
 
     def getToken(self):
+        self.skipWhiteSpace()
         token = None
 
         if self.curChar == '+':
@@ -51,7 +52,10 @@ class Lexer:
 
     def ignoreComments(self):
         pass
-
+    
+    def skipWhiteSpace(self):
+        while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
+            self.nextChar()
 # Token contains the original text and the type of token.
 class Token:   
     def __init__(self, tokenText, tokenKind):
